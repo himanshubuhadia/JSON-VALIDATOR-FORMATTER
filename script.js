@@ -2,7 +2,7 @@ const jsonInput = document.getElementById('json-input');
 const jsonOutput = document.getElementById('json-output');
 const statusBar = document.getElementById('status-bar');
 
-// 1. CORE VALIDATION AND FORMATTING LOGIC
+
 function processJSON() {
     const rawData = jsonInput.value.trim();
     if (!rawData) {
@@ -12,25 +12,24 @@ function processJSON() {
     }
 
     try {
-        // Attempt to parse the text[cite: 2, 7]
         const parsed = JSON.parse(rawData);
         
-        // Format the object back to a string with 4-space indentation[cite: 2, 7]
+        
         jsonOutput.textContent = JSON.stringify(parsed, null, 4);
         
-        showStatus("✓ Valid JSON Format", "success");
+        showStatus('<i class="fas fa-check-circle"></i> Valid JSON! Successfully formatted.', "success");
         jsonInput.style.borderColor = "var(--primary)";
     } catch (err) {
         jsonOutput.textContent = "";
-        // Show specific syntax error message[cite: 2, 7]
-        showStatus("✖ " + err.message, "error");
-        jsonInput.style.borderColor = "#dc2626";
+        // Extract browser-provided error message[cite: 2, 12]
+        showStatus('<i class="fas fa-triangle-exclamation"></i> Invalid JSON: ' + err.message, "error");
+        jsonInput.style.borderColor = "var(--danger)";
     }
 }
 
-// 2. STATUS MESSAGE HANDLING
-function showStatus(msg, type) {
-    statusBar.textContent = msg;
+
+function showStatus(htmlContent, type) {
+    statusBar.innerHTML = htmlContent;
     statusBar.className = `status-bar ${type}`;
     statusBar.classList.remove('hidden');
 }
@@ -40,7 +39,7 @@ function hideStatus() {
     jsonInput.style.borderColor = "var(--border)";
 }
 
-// 3. FILE UPLOAD LOGIC
+
 document.getElementById('file-input').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (!file) return;
@@ -53,10 +52,10 @@ document.getElementById('file-input').addEventListener('change', function(e) {
     reader.readAsText(file);
 });
 
-// 4. DOWNLOAD LOGIC
+
 document.getElementById('download-btn').addEventListener('click', () => {
     const content = jsonOutput.textContent;
-    if (!content) return alert("Nothing to download. Provide valid JSON first.");
+    if (!content) return alert("Nothing to download. Please provide valid JSON first.");
     
     const blob = new Blob([content], {type: 'application/json'});
     const url = URL.createObjectURL(blob);
@@ -64,27 +63,34 @@ document.getElementById('download-btn').addEventListener('click', () => {
     a.href = url;
     a.download = 'formatted_data.json';
     a.click();
+    URL.revokeObjectURL(url);
 });
 
-// 5. COPY TO CLIPBOARD
+
 document.getElementById('copy-btn').addEventListener('click', () => {
     const content = jsonOutput.textContent;
     if (!content) return;
     
     navigator.clipboard.writeText(content).then(() => {
         const btn = document.getElementById('copy-btn');
-        const originalText = btn.innerText;
-        btn.innerText = "Copied!";
-        setTimeout(() => btn.innerText = originalText, 2000);
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        setTimeout(() => btn.innerHTML = originalHTML, 2000);
     });
 });
 
-// 6. EVENT LISTENERS FOR THEME AND ACTIONS[cite: 7]
+
 document.getElementById('validate-btn').addEventListener('click', processJSON);
 
 document.getElementById('theme-toggle').addEventListener('click', () => {
     const isDark = document.body.classList.toggle('dark-mode');
-    document.getElementById('theme-toggle').innerText = isDark ? "☀️" : "🌙";
+    const icon = document.getElementById('theme-icon');
+    
+    if (isDark) {
+        icon.classList.replace('fa-moon', 'fa-sun');
+    } else {
+        icon.classList.replace('fa-sun', 'fa-moon');
+    }
 });
 
 document.getElementById('clear-btn').addEventListener('click', () => {
@@ -93,9 +99,9 @@ document.getElementById('clear-btn').addEventListener('click', () => {
     hideStatus();
 });
 
-// Real-time validation (Bonus feature)
+
+let timer;
 jsonInput.addEventListener('input', () => {
-    if (jsonInput.value.length > 0) {
-        // Optional: you could call processJSON() here for real-time validation
-    }
+    clearTimeout(timer);
+    timer = setTimeout(processJSON, 500);
 });
