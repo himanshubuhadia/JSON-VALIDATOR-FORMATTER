@@ -1,0 +1,83 @@
+:root {
+    --bg-color: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --danger: #ef4444;
+}
+
+.dark-mode {
+    --bg-color: #0f172a;
+    --card-bg: #1e293b;
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    --border: #334155;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    margin: 0; padding: 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.container { max-width: 1100px; margin: 0 auto; }
+
+header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+h1 { margin: 0; font-size: 1.8rem; }
+.badge { font-size: 0.8rem; background: var(--primary); color: white; padding: 2px 8px; border-radius: 4px; vertical-align: middle; }
+
+.toolbar { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+.btn-group { display: flex; gap: 8px; }
+
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    height: 550px;
+}
+
+.pane { display: flex; flex-direction: column; }
+.pane-label { font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; color: var(--text-muted); text-transform: uppercase; }
+
+textarea, #output-container {
+    flex: 1; width: 100%;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 15px;
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 14px;
+    resize: none;
+    outline: none;
+    color: var(--text-main);
+}
+
+textarea:focus { border-color: var(--primary); }
+
+
+button, .action-btn {
+    padding: 10px 18px; border-radius: 6px; cursor: pointer;
+    font-size: 0.9rem; font-weight: 500; border: 1px solid var(--border);
+    background: var(--card-bg); color: var(--text-main);
+}
+
+.primary-btn { background: var(--primary); color: white; border: none; }
+.primary-btn:hover { background: var(--primary-hover); }
+.danger-btn:hover { color: var(--danger); border-color: var(--danger); }
+
+.status-bar { margin-top: 15px; padding: 12px 20px; border-radius: 8px; font-weight: 500; }
+.error { background: #fee2e2; color: #dc2626; border: 1px solid #dc2626; }
+.success { background: #d1fae5; color: #16a34a; border: 1px solid #16a34a; }
+.hidden { display: none; }
+
+@media (max-width: 800px) {
+    .main-content { grid-template-columns: 1fr; height: auto; }
+    textarea { height: 300px; }
+}

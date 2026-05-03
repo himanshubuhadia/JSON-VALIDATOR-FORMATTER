@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Validator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="light-mode">
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>JSON Validator</h1>
+                <p>Clean, validate, and beautify your JSON data.</p>
+            </div>
+            <button id="theme-toggle" class="icon-btn" title="Toggle Dark/Light Mode">🌙</button>
+        </header>
+
+        <div class="toolbar">
+            <div class="btn-group">
+                <label for="file-input" class="action-btn">Upload File</label>
+                <input type="file" id="file-input" accept=".json" style="display:none">
+                <button id="validate-btn" class="primary-btn">Validate & Format</button>
+            </div>
+            <div class="btn-group">
+                <button id="copy-btn">Copy</button>
+                <button id="download-btn">Download</button>
+                <button id="clear-btn" class="danger-btn">Clear</button>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="pane">
+                <div class="pane-label">Raw Input</div>
+                <textarea id="json-input" placeholder='Paste JSON here... ' spellcheck="false"></textarea>
+            </div>
+            <div class="pane">
+                <div class="pane-label">Formatted Output</div>
+                <div id="output-container">
+                    <pre id="json-output"></pre>
+                </div>
+            </div>
+        </div>
+
+        <div id="status-bar" class="hidden"></div>
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
